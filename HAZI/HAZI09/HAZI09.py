@@ -1,7 +1,7 @@
 import numpy as np
-from sklearn.metrics import confusion_matrix
-from sklearn.datasets import load_digits
 from sklearn.cluster import KMeans
+from sklearn.datasets import load_digits
+from sklearn.metrics import confusion_matrix
 
 class KMeansOnDigits:
     def __init__(self, n_clusters, random_state):
@@ -13,7 +13,7 @@ class KMeansOnDigits:
 
     def predict(self):
         self.model = KMeans(n_clusters=self.n_clusters, random_state=self.random_state)
-        self.n_clusters = self.model.fit_predict(self.digits.data)
+        self.clusters = self.model.fit_predict(self.digits.data)
 
     def get_labels(self):
         l = np.zeros_like(self.clusters)
@@ -23,9 +23,9 @@ class KMeansOnDigits:
             mode = np.bincount(target).argmax()
             l[mask] = mode
         self.labels = l
-    
+
     def calc_accuracy(self):
-        self.accuracy = round(np.mean(self.labels == self.digits.target),2)
+        self.accuracy = round(np.mean(self.labels == self.digits.target), 2)
 
     def confusion_matrix(self):
         self.mat = confusion_matrix(self.digits.target, self.labels)
